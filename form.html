@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نموذج تسجيل بسيط</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        p.subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #444;
+            font-weight: 600;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(37,117,252,0.35);
+        }
+        .flash {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        .flash.success { background: #e6ffed; color: #1b5e20; border: 1px solid #b6eabc; }
+        .flash.error { background: #ffe6e6; color: #c62828; border: 1px solid #f5b5b5; }
+        .list {
+            margin-top: 20px;
+        }
+        .user-row {
+            padding: 10px 12px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            background: #fafafa;
+        }
+        .user-row strong { color: #333; }
+        .empty { text-align: center; color: #777; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>تسجيل مستخدم</h1>
+        <p class="subtitle">اسم مستخدم + كلمة مرور فقط</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, msg in messages %}
+              <div class="flash {{ category }}">{{ msg }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="/">
+            <label for="username">اسم المستخدم</label>
+            <input id="username" name="username" required placeholder="مثال: ahmed" />
+
+            <label for="password">كلمة المرور</label>
+            <input id="password" name="password" type="password" required placeholder="•••••••" />
+
+            <button type="submit">حفظ</button>
+        </form>
+
+        <div class="list">
+            <h3>المستخدمون المسجلون</h3>
+            {% if users %}
+              {% for user in users %}
+                <div class="user-row">
+                    <div><strong>اسم:</strong> {{ user[1] }}</div>
+                                        <div style="color:#777; font-size:12px;">تم الإنشاء: {{ user[2] }}</div>
+                </div>
+              {% endfor %}
+            {% else %}
+              <p class="empty">لا يوجد مستخدمون بعد</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
